@@ -10,13 +10,13 @@
 * Directory structure is as follows
 ```Python
 src/
-    main.py				- runs the code
+    main.py				            - runs the code
     data_extractor/
         data_extractor.py	    	- extracts and cleans the data
     division_profiles/
-        division_profiles.py 	- creates division profiles from data
+        division_profiles.py 	    - creates division profiles using data
     clusters/
-        clusters.py  	   	- performs cluster analysis on profiles
+        clusters.py  	   	        - performs cluster analysis on profiles
     anomalies/
-        anomalies.py			-  performs anomaly analysis on profiles
+        anomalies.py			    -  performs anomaly analysis on profiles
 ```
