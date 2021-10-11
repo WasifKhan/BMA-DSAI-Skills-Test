@@ -12,7 +12,7 @@
 src/
     main.py                         - runs the code
     data_extractor/
-        data_extractor.py           - extracts and cleans the data
+        data_extractor.py           - extracts & cleans the data
     division_profiles/
         division_profiles.py        - creates division profiles using data
     clusters/
