@@ -18,5 +18,5 @@ src/
     clusters/
         clusters.py                 - performs cluster analysis on profiles
     anomalies/
-        anomalies.py                -  performs anomaly analysis on profiles
+        anomalies.py                - performs anomaly analysis on profiles
 ```
