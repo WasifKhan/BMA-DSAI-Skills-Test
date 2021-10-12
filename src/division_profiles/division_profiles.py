@@ -1,3 +1,3 @@
 class DivisionProfiles:
-    def __init__(self):
-        return True
+    def __init__(self, data):
+        return None

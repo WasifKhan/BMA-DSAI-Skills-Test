@@ -5,7 +5,7 @@ from anomalies.anomalies import Anomalies
 
 if __name__ == '__main__':
     data = DataExtractor()
-
+'''
     division_profiles = DivisionProfiles(data)
     clusters = Clusters(division_profiles)
     anomalies = Anomalies(division_profiles)
@@ -14,3 +14,4 @@ if __name__ == '__main__':
     division_profiles.visualize()
     clusters.visualize()
     anomalies.visualize()
+'''

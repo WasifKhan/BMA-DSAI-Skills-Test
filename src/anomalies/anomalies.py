@@ -1,3 +1,4 @@
 class Anomalies:
-    def __init__(self):
-        return True
+    def __init__(self, division_profiles):
+        return None
+
