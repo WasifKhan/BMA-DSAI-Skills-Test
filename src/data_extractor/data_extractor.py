@@ -25,11 +25,20 @@ class DataExtractor:
                     self.dataset[key][data[i]] += 1
                 else:
                     self.dataset[key][data[i]] = 1
-        '''
-        for key in self.dataset:
-            print(f'{key}: {self.dataset[key]}')
-        '''
 
+        # Auxillary statistics work
+        for key in self.dataset:
+            divisions = self.dataset['Division']
+            total = 0
+            for division in divisions:
+                if division == '':
+                    continue
+                total += divisions[division]
+                print(f'{division}: {divisions[division]}')
+            break
+            for entry in self.dataset[key]:
+                print(f'{entry}: {self.dataset[key][entry]}')
+        print(f'total divisions is: {total}')
 
     def word_to_datapoint(self, word):
         datapoint = [0] * 27
