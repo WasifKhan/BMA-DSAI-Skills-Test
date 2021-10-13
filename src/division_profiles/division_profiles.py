@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 
 class DivisionProfiles:
     def __init__(self, data):
+        self.data = data
+        self.graph_aggregate_transactions()
+        print('got here')
         return None
 
     def graph_aggregate_transactions(self):
@@ -11,16 +14,16 @@ class DivisionProfiles:
         women_means = [25, 32, 34, 20, 25]
         men_std = [2, 3, 4, 1, 2]
         women_std = [3, 5, 2, 3, 3]
-        width = 0.35       # the width of the bars: can also be len(x) sequence
+        width = 0.35
 
         fig, ax = plt.subplots()
 
-            ax.bar(labels, men_means, width, yerr=men_std, label='Men')
-            ax.bar(labels, women_means, width, yerr=women_std, bottom=men_means,
-                           label='Women')
+        ax.bar(labels, men_means, width, yerr=men_std, label='Men')
+        ax.bar(labels, women_means, width, yerr=women_std, bottom=men_means,
+                       label='Women')
 
-            ax.set_ylabel('Scores')
-            ax.set_title('Scores by group and gender')
-            ax.legend()
+        ax.set_ylabel('Scores')
+        ax.set_title('Scores by group and gender')
+        ax.legend()
 
-            plt.show()
+        plt.show()
