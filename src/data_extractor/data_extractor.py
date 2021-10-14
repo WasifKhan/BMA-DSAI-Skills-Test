@@ -1,56 +1,45 @@
+import pandas as pd
+
 class DataExtractor:
     def __init__(self):
-        self.initialize_raw_data()
+        self.initialize_dataset()
         self.extract_data()
-        self.weighted_frequency()
-        self.output_raw_data()
 
-    def initialize_raw_data(self):
-        self.raw_data = {'Division':{}, 'Transaction ID':{},
-            'Transaction Date':{}, 'Card Posting Date':{},
-            'Merchant Name':{}, 'Transaction Amount':{},
-            'Transaction Currency':{}, 'Original Amount':{},
-            'Original Currency':{}, 'G/L Account':{},
-            'G/L Account Description':{}, 'Cost Centre':{},
-            'Cost Centre Description':{}, 'Merchant Type':{},
-            'Merchant Type Description':{}, 'Purpose':{},
-        }
 
-    def weighted_frequency(self):
-        for key in self.raw_data:
-            print(f'unique entries for {key}: {len(self.raw_data[key])}')
-
-    def output_raw_data(self):
-        print(sorted(self.raw_data['Transaction Date']))
+    def initialize_dataset(self):
+        self.features = ['Division', 'Transaction ID', 'Transaction Date', 'Card Posting Date',
+            'Merchant Name', 'Transaction Amount', 'Transaction Currency', 'Original Amount',
+            'Original Currency', 'G/L Account', 'G/L Account Description', 'Cost Centre',
+            'Cost Centre Description', 'Merchant Type', 'Merchant Type Description', 'Purpose',
+        ]
 
 
     def extract_data(self):
-        data_file = open('data.tsv', 'r')
-        data_file.readline() #  Omit column names
-        while data := data_file.readline().split('\t'):
-            if data == ['']:
-                break
-            for i, key in enumerate(self.raw_data.keys()):
-                if data[i] != '' and data[i] in self.raw_data[key]:
-                    self.raw_data[key][data[i]] += 1
-                elif data[i] != '':
-                    self.raw_data[key][data[i]] = 1
+        from os import listdir
+        dataset = None
+        for filename in listdir('./data/'):
+            datapoint = pd.read_excel(f'./data/{filename}')
+            self.analyze_feature_names(datapoint, filename)
+            datapoint.set_axis(self.features, axis='columns', inplace=True)
+            datapoint.dropna(inplace=True)
+            if dataset is None:
+                dataset = datapoint
+            else:
+                dataset = pd.concat([dataset, datapoint])
+        self.dataset = dataset
 
-        # Auxillary statistics work
-        for key in self.raw_data:
-            divisions = self.raw_data['Division']
-            total = 0
-            for division in divisions:
-                if division == '':
-                    continue
-                total += divisions[division]
-                print(f'{division}: {divisions[division]}')
-            break
-            '''
-            for entry in self.raw_data[key]:
-                print(f'{entry}: {self.raw_data[key][entry]}')
-            '''
-        print(f'total entries is: {total}')
+
+    def analyze_feature_names(self, data, filename):
+        columns = [None]*16
+        for i, col in enumerate(data.columns):
+            if not columns[i]:
+                columns[i] = {col: [1, [filename]]}
+            elif col in columns[i]:
+                columns[i][col][0] += 1
+                columns[i][col][1].append(filename)
+            else:
+                columns[i][col] = [1, [filename]]
+
 
     def word_to_datapoint(self, word):
         datapoint = [0] * 27
