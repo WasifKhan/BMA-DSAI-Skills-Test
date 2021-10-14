@@ -33,9 +33,14 @@ for filename in listdir('./data/'):
     data = pd.read_excel(f'./data/{filename}')
     for i, col in enumerate(data.columns):
         if i < 16 and not columns[i]:
-            columns[i] = [col]
+            columns[i] = {col: [1, [filename]]}
+        elif i < 16 and col in columns[i]:
+            columns[i][col][0] += 1
+            columns[i][col][1].append(filename)
         elif i < 16:
-            columns[i].append(col)
+            columns[i][col] = [1, [filename]]
+        else:
+            print(f'file has excesssive columns: {filename}')
 for col in columns:
     print(col)
 
