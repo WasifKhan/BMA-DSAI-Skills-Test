@@ -1,7 +1,7 @@
 class Anomalies:
     def __init__(self, division_profiles):
         return None
-    
+
     def generate_statistics(self):
         import numpy as np
         np.random.seed(123)

@@ -70,7 +70,42 @@ class DivisionProfile:
 class DivisionProfiles:
     def __init__(self, dataset):
         self.ds = dataset
-        self.graph_complex_statistics()
+        self.graph_features()
+        self.graph_scatter(0, 0, 'Number of Transactions',
+                'Number of Merchant Names', 'Number of Merchant Names Per Division')
+        self.graph_scatter(0, 0, 'Number of Transactions',
+                'Number of GL Accounts', 'Number of GL Accounts Per Division')
+
+    def graph_features(self):
+        division_transactions = self.ds.groupby(
+                ['Division'])['G/L Account'].count().sort_values(ascending=False)
+        x = division_transactions.index[:10]
+        y = division_transactions.values[:10]
+        self.graph_aggregate_stats(x, y, 'Divisions',
+                'Number of GL Amounts',
+                'Number of GL Accounts Per Division')
+        division_transactions = self.ds.groupby(
+                ['Division'])['Merchant Name'].count().sort_values(ascending=False)
+        x = division_transactions.index[:10]
+        y = division_transactions.values[:10]
+        self.graph_aggregate_stats(x, y, 'Divisions',
+                'Merchant Name',
+                'Number of Merchant Names Per Division')
+        division_transactions = self.ds.groupby(
+                ['Division'])['G/L Account Description'].count().sort_values(ascending=False)
+        x = division_transactions.index[:10]
+        y = division_transactions.values[:10]
+        self.graph_aggregate_stats(x, y, 'Divisions',
+                'GL Amount Descriptions',
+                'GL Account Description Per Division')
+        division_transactions = self.ds.groupby(
+                ['Division'])['Card Posting Date'].count().sort_values(ascending=False)
+        x = division_transactions.index[:10]
+        y = division_transactions.values[:10]
+        self.graph_aggregate_stats(x, y, 'Divisions',
+                'Card Posting Date',
+                'Posting Date Per Division')
+
 
 
     def aggregate_statistics_bar(self):
@@ -104,18 +139,17 @@ class DivisionProfiles:
     def graph_scatter(self, x, y, x_label, y_label, title):
         import numpy as np
         fig, ax = plt.subplots()
-        colors = iter(plt.cm.rainbow(np.linspace(0, 1, len(x))))
+        colors = iter(plt.cm.rainbow(np.linspace(0, 1, 3)))
         for i, color in enumerate(colors):
-            n=50
+            n=32
             x, y = np.random.rand(2, n)
             scale = 200.0 * np.random.rand(n)
             ax.scatter(x, y, c=color, s=scale, label=color,
                                    alpha=0.3, edgecolors='none')
-        ax.legend()
         ax.grid(True)
-        ax.set_xlabel(y_label, fontsize=25)
-        ax.set_ylabel(x_label, fontsize=25)
-        ax.set_title(title, fontsize=50)
+        ax.set_xlabel(y_label, fontsize=12)
+        ax.set_ylabel(x_label, fontsize=12)
+        ax.set_title(title, fontsize=18)
         plt.show()
         plt.savefig(f'{title}.png')
 
@@ -140,11 +174,6 @@ class DivisionProfiles:
         self.graph_aggregate_stats(data.keys(), data, 'Year',
                 'Transaction Amounts', 'Aggregate Transaction Amounts',
                 'sbar')
-        division_GL = self.ds.groupby(
-                ['Division', 'G/L Account'])['Transaction Amount'].sum().sort_values(ascending=False)
-        print(division_GL)
-        x = division_GL.index
-        y = division_GL.values
 
 
 
