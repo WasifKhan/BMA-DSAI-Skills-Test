@@ -3,14 +3,15 @@ import pandas as pd
 class DataExtractor:
     def __init__(self):
         self.initialize_dataset()
+#self.load_data()
         self.load_data()
-        self.extract_data()
+#        self.extract_data()
         '''
         Do not need to clean data more than once
         Uncomment the line below if you need to generate the "data.xlsx" file
         '''
-        self.clean_data()
-        self.save_data()
+#self.clean_data()
+#       self.save_data()
 
 
 
@@ -20,15 +21,12 @@ class DataExtractor:
             'Original Currency', 'G/L Account', 'G/L Account Description', 'Cost Centre',
             'Cost Centre Description', 'Merchant Type', 'Merchant Type Description', 'Purpose',
         ]
-        self.words = ['Division', 'Merchant Name', 'G/L Account Description', 'Cost Centre Description', 'Merchant Type Description']
+        self.words = ['Division', 'Merchant Name', 'G/L Account Description', 'Cost Centre Description']
 
 
     def clean_data(self):
         for column in self.words:
-            print(f'on feature: {column}')
             agg_data = self.dataset[column].value_counts()
-            print(agg_data)
-            print(f'len: {len(agg_data)}')
             same_candidates = agg_data.index[len(agg_data) -int(len(agg_data)*0.1):]
             real_values = agg_data.index[0:int(len(agg_data)*0.9)]
             for entry1 in same_candidates:
@@ -42,11 +40,7 @@ class DataExtractor:
                             < best_val):
                         best_candidate, best_val = entry2, total_diff
                 if best_candidate:
-                    print(f'replaced {entry1} with {best_candidate}')
                     self.dataset.replace(entry1, best_candidate, inplace=True)
-            agg_data = self.dataset[column].value_counts()
-            print(agg_data)
-            print(f'len: {len(agg_data)}')
 
     def save_data(self):
         self.dataset.to_excel('data.xlsx')
@@ -60,8 +54,6 @@ class DataExtractor:
         total_diff = 0
         for i in range(26):
             total_diff += abs(smaller[i] - larger[i])
-        print(f'total dif: {total_diff}/{total}')
-
         return total_diff/total
 
 
@@ -80,15 +72,12 @@ class DataExtractor:
 
 
     def load_data(self):
-        self.dataset = pd.read_excel('data.xlsx')
+        self.dataset = pd.read_excel('true_data.xlsx')
 
 
     def analyze_features(self):
         features = [None]*16
         for dp in self.dataset.rows:
-            if len(dp) != 16:
-                print(f'bad DP: {dp}')
-                break
             for i, feature in enumerate(dp):
                 if not features[i]:
                     features[i] = {dp[i]: 1}

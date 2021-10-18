@@ -16,16 +16,8 @@ start = time()
 if __name__ == '__main__':
     data = DataExtractor()
     division_profiles = DivisionProfiles(data.dataset)
-'''
     clusters = Clusters(division_profiles)
     anomalies = Anomalies(division_profiles)
-
-    data.visualize()
-    division_profiles.visualize()
-    clusters.visualize()
-    anomalies.visualize()
-'''
-
 end = time()
 
 print(f'Program took {str(end-start)[0:6]}s to execute')
