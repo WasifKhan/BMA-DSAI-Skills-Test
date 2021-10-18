@@ -11,6 +11,8 @@
 ```Python
 src/
     main.py                         - runs the code
+    data/
+        data.xlsx                   - contains the cleaned data extracted into one file
     data_extractor/
         data_extractor.py           - extracts & cleans the data
     division_profiles/
